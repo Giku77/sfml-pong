@@ -22,7 +22,7 @@ void SceneDev2::Init()
 
 void SceneDev2::Update(float dt)
 {
-	if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, (int)sf::Keyboard::Space }))
+	if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Space) }))
 	{
 		SCENE_MGR.ChangeScene(SceneIds::Dev1);
 	}

@@ -28,24 +28,26 @@ void SceneDev1::Init()
 
 void SceneDev1::Update(float dt)
 {
-	if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, (int)sf::Keyboard::Space }))
+	if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Space) }))
 	{
 		SCENE_MGR.ChangeScene(SceneIds::Dev2);
 	}
 
-	if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, (int)sf::Keyboard::Num1 }))
+	if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Num1) }))
 	{
 		textGo->sortingOrder = -1;
 	}
 
-	if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, (int)sf::Keyboard::Num2 }))
+	if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Num2) }))
 	{
 		textGo->sortingOrder = 1;
 	}
 
 	sf::Vector2f dir;
-	dir.x = InputMgr::GetAxisRaw(Axis::Horizontal);
-	dir.y = InputMgr::GetAxisRaw(Axis::Vertical);
+	dir.x = InputMgr::GetAxis(Axis::Horizontal);
+	dir.y = InputMgr::GetAxis(Axis::Vertical);
+
+	std::cout << InputMgr::GetAxis(Axis::Horizontal) << std::endl;
 
 	sf::Vector2f pos = textGo->GetPosition();
 	pos += dir * 100.f * dt;
@@ -55,14 +57,14 @@ void SceneDev1::Update(float dt)
 	InputMgr::GetMouseButtonUp(sf::Mouse::Button key)
 	InputMgr::GetMouseButton(sf::Mouse::Button key)
     sf::Vector2i InputMgr::GetMousePosition()*/
-	if (InputMgr::GetMouseButtonDown({ InputType::Type::Mouse, (int)sf::Mouse::Left })) {
+	if (InputMgr::GetMouseButtonDown({ InputType::Type::Mouse, static_cast<int>(sf::Mouse::Left) })) {
 		std::cout << "왼쪽 마우스 클릭 다운" << std::endl;
 		std::cout << "마우스 좌표 : " << InputMgr::GetMousePosition().x << ", " << InputMgr::GetMousePosition().y << std::endl;
 	}
-	if (InputMgr::GetMouseButtonDown({ InputType::Type::Mouse, (int)sf::Mouse::Right })) {
+	if (InputMgr::GetMouseButtonDown({ InputType::Type::Mouse, static_cast<int>(sf::Mouse::Right) })) {
 		std::cout << "오른쪽 마우스 클릭 업" << std::endl;
 	}
-	if (InputMgr::GetMouseButtonDown({ InputType::Type::Mouse, (int)sf::Mouse::Middle })) {
+	if (InputMgr::GetMouseButtonDown({ InputType::Type::Mouse, static_cast<int>(sf::Mouse::Middle) })) {
 		std::cout << "중간 마우스 클릭" << std::endl;
 	}
 }

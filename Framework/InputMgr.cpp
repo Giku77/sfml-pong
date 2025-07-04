@@ -19,18 +19,18 @@ void InputMgr::Init()
 {
 	AxisInfo infoH;
 	infoH.axis = Axis::Horizontal;
-	infoH.positivies.push_back({ InputType::Type::Keyboard, (int)sf::Keyboard::D });
-	infoH.positivies.push_back({ InputType::Type::Keyboard, (int)sf::Keyboard::Right });
-	infoH.negativies.push_back({ InputType::Type::Keyboard, (int)sf::Keyboard::A });
-	infoH.negativies.push_back({ InputType::Type::Keyboard, (int)sf::Keyboard::Left });
+	infoH.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::D) });
+	infoH.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Right) });
+	infoH.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::A) });
+	infoH.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Left) });
 	axisInfoMap.insert({ Axis::Horizontal, infoH });
 
 	AxisInfo infoV;
 	infoV.axis = Axis::Vertical;
-	infoV.positivies.push_back({ InputType::Type::Keyboard, (int)sf::Keyboard::S });
-	infoV.positivies.push_back({ InputType::Type::Keyboard, (int)sf::Keyboard::Down });
-	infoV.negativies.push_back({ InputType::Type::Keyboard, (int)sf::Keyboard::W });
-	infoV.negativies.push_back({ InputType::Type::Keyboard, (int)sf::Keyboard::Up });
+	infoV.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::S) });
+	infoV.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Down) });
+	infoV.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::W) });
+	infoV.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Up) });
 	axisInfoMap.insert({ Axis::Vertical, infoV });
 
 	//InputMgr::ResetMosueButton();
@@ -81,6 +81,25 @@ void InputMgr::UpdateEvent(const sf::Event& ev)
 
 void InputMgr::Update(float dt) 
 {
+	//sf::Vector2i mousePos;
+	for (auto& pair : axisInfoMap) {
+		AxisInfo& axisInfo = pair.second;
+		float raw = GetAxisRaw(axisInfo.axis);
+		float dir = raw;
+		if (raw == 0.f && axisInfo.value != 0.f) {
+			dir = axisInfo.value > 0.f ? -1.f : 1.f;
+		}
+
+
+		axisInfo.value += dir * axisInfo.senssi * dt;
+		axisInfo.value = Utils::Clamp(axisInfo.value, -1.f, 1.f);
+
+		float stophold = std::abs(dir * axisInfo.senssi * dt);
+		if (raw == 0.f && std::abs(axisInfo.value) < stophold)
+		{
+			axisInfo.value = 0.f;
+		}
+	}
 
 }
 
@@ -146,7 +165,12 @@ float InputMgr::GetAxisRaw(Axis axis)
 
 float InputMgr::GetAxis(Axis axis)
 {
-	return 0.0f;
+	auto findIt = axisInfoMap.find(axis);
+	if (findIt == axisInfoMap.end()) {
+		return 0.0f;
+	}
+
+	return findIt->second.value;
 }
 
 bool InputMgr::GetMouseButtonDown(InputType key)
@@ -174,9 +198,9 @@ bool InputMgr::GetMouseButton(InputType key)
 
 sf::Vector2i InputMgr::GetMousePosition()
 {
-	sf::Vector2i v2;
-	v2.x = std::abs(FRAMEWORK.GetWindow().getPosition().x - sf::Mouse::getPosition().x);
-	v2.y = std::abs(FRAMEWORK.GetWindow().getPosition().y - sf::Mouse::getPosition().y);
-	return v2;
+	//sf::Vector2i v2;
+	//v2.x = std::abs(FRAMEWORK.GetWindow().getPosition().x - sf::Mouse::getPosition().x);
+	//v2.y = std::abs(FRAMEWORK.GetWindow().getPosition().y - sf::Mouse::getPosition().y);
+	return sf::Mouse::getPosition(FRAMEWORK.GetWindow());
 }
 
