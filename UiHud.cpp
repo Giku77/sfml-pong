@@ -19,7 +19,7 @@ void UiHud::Init()
 	//textMsg.setString("Press Enter to start!");
 	textMsg.setCharacterSize(100);
 	textMsg.setFillColor(sf::Color::White);
-	textMsg.setPosition(FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().y * 0.5f);
+	textMsg.setPosition(FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().y * 0.5f - 50.f);
 
 }
 
@@ -41,6 +41,6 @@ void UiHud::Update(float dt)
 
 void UiHud::Draw(sf::RenderWindow& window)
 {
-	std::cout << "showMsg : " << isShowMsg << std::endl;
+	//std::cout << "showMsg : " << isShowMsg << std::endl;
 	if (isShowMsg) window.draw(textMsg);
 }

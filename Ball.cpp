@@ -49,7 +49,7 @@ void Ball::Init()
 {
 	shape.setRadius(10.f);
 	shape.setFillColor(sf::Color::Yellow);
-	SetOrigin(Origins::BC);
+	SetOrigin(Origins::ML);
 }
 
 void Ball::Release()
@@ -59,14 +59,14 @@ void Ball::Release()
 void Ball::Reset()
 {
 	sf::FloatRect bounds = FRAMEWORK.GetWindowBounds();
-	shape.setPosition(bounds.width / 2.f, bounds.height - 40.f);
+	shape.setPosition(40.f, bounds.height / 2.f);
 
 	float radius = shape.getRadius();
-	minX = bounds.left + radius;
-	maxX = (bounds.left + bounds.width) - radius;
+	minX = bounds.left + radius - 50.f;
+	maxX = (bounds.left + bounds.width) - radius + 50.f;
 
-	minY = bounds.top - radius * 4.f;
-	maxY = bounds.top + bounds.height + radius * 4.f;
+	minY = bounds.top - radius * 0.5f;
+	maxY = bounds.top + bounds.height + radius * 2.f;
 
 	dir = { 0.f, 0.f };
 	speed = 0.f;
@@ -90,39 +90,39 @@ void Ball::Update(float dt)
 		sf::Vector2f pos = shape.getPosition() + dir * speed * dt;
 
 		if (pos.x < minX) {
-			pos.x = minX;
-			dir.x *= -1.f;
+			//pos.x = minX;
+			//dir.x *= -1.f;
+			hud->SetShowMsg(true);
+			hud->SetMsg("PLAYER2 WIN");
+			isFinish = true;
 		}
 		else if (pos.x > maxX) {
-			pos.x = maxX;
-			dir.x *= -1.f;
-		}
-
-		if (pos.y < minY) {
-			//pos.y = minY;
-			//dir.y *= -1.f;
+			//pos.x = maxX;
+			//dir.x *= -1.f;
 			hud->SetShowMsg(true);
 			hud->SetMsg("PLAYER1 WIN");
 			isFinish = true;
 		}
+
+		if (pos.y < minY) {
+			pos.y = minY;
+			dir.y *= -1.f;
+		}
 		else if (pos.y > maxY) {
-			//pos.y = maxY;
-			//dir.y *= -1.f;
-			hud->SetShowMsg(true);
-			hud->SetMsg("PLAYER2 WIN");
-			isFinish = true;
+			pos.y = maxY;
+			dir.y *= -1.f;
 		}
 
 		if (bat != nullptr) {
 			const sf::FloatRect& batBounds = bat->GetGlobalBound();
 			const sf::FloatRect batBounds2 = bat->GetGlobalBound2();
 			if (shape.getGlobalBounds().intersects(batBounds)) {
-				pos.y = batBounds.top;
-				dir.y *= -1.f;
+				pos.x = 40.f;
+				dir.x *= -1.f;
 			}
 			if (shape.getGlobalBounds().intersects(batBounds2)) {
-				pos.y = batBounds2.height + 40.f;
-				dir.y *= -1.f;
+				pos.x = batBounds2.left - 40.f;
+				dir.x *= -1.f;
 			}
 		}
 		SetPosition(pos);

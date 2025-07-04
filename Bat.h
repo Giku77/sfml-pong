@@ -12,6 +12,7 @@ protected:
     sf::Vector2f dir2;
 
     float minX = 0.f, maxX = 0.f;
+    float minY = 0.f, maxY = 0.f;
 
 public:
     Bat(const std::string& name = "");

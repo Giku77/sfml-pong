@@ -5,12 +5,12 @@
 
 void Bat::Init()
 {
-	shape.setSize({ 100.f, 5.f });
+	shape.setSize({ 5.f, 100.f });
 	shape.setFillColor(sf::Color::White);
 
-	shape2.setSize({ 100.f, 5.f });
+	shape2.setSize({ 5.f, 100.f });
 	shape2.setFillColor(sf::Color::White);
-	SetOrigin(Origins::BC);
+	SetOrigin(Origins::MR);
 
 }
 
@@ -60,14 +60,16 @@ void Bat::SetOrigin(Origins preset)
 void Bat::Reset()
 {
 	sf::FloatRect bounds = FRAMEWORK.GetWindowBounds();
-	shape.setPosition(bounds.width / 2.f, bounds.height - 20.f);
-	shape2.setPosition(bounds.width / 2.f, 20.f);
+	shape.setPosition(20.f, bounds.height / 2.f);
+	shape2.setPosition(bounds.width - 20.f, bounds.height / 2.f);
 	position = shape.getPosition();
 
 	sf::Vector2f size = shape.getSize();
 
-	minX = bounds.left + size.x * 0.5f;
-	maxX = (bounds.left + bounds.width) - size.x * 0.5f;
+	//minX = bounds.left + size.x * 0.5f;
+	//maxX = (bounds.left + bounds.width) - size.x * 0.5f;
+	minY = bounds.top + size.y * 0.5f;
+	maxY = (bounds.top + bounds.height) - size.y * 0.5f;
 }
 
 void Bat::Update(float dt)
@@ -77,22 +79,22 @@ void Bat::Update(float dt)
 	//std::cout << bounds.width << std::endl;
 
 	
-	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::Left })) {
-		dir.x = -1.f;
-		shape.setPosition(shape.getPosition() + dir * speed * dt);
+	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::Up })) {
+		dir2.y = -1.f;
+		shape2.setPosition(shape2.getPosition() + dir2 * speed * dt);
 	}
-	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::Right })) {
-		dir.x = 1.f;
-		shape.setPosition(shape.getPosition() + dir * speed * dt);
+	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::Down})) {
+		dir2.y = 1.f;
+		shape2.setPosition(shape2.getPosition() + dir2 * speed * dt);
 	}
 
-	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::A })) {
-		dir2.x = -1.f;
-		shape2.setPosition(shape2.getPosition() + dir2 * speed * dt);
+	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::W })) {
+		dir.y = -1.f;
+		shape.setPosition(shape.getPosition() + dir * speed * dt);
 	}
-	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::D })) {
-		dir2.x = 1.f;
-		shape2.setPosition(shape2.getPosition() + dir2 * speed * dt);
+	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::S })) {
+		dir.y = 1.f;
+		shape.setPosition(shape.getPosition() + dir * speed * dt);
 	}
 	//if(shape.getPosition().x < 0) shape.setPosition(0.f, shape.getPosition().y);
 	//if(shape.getPosition().x > bounds.width - 80.f) shape.setPosition(bounds.width - 80.f, shape.getPosition().y);
@@ -103,11 +105,11 @@ void Bat::Update(float dt)
 	//shape.setPosition(shape.getPosition() + dir * speed * dt);
 	//shape2.setPosition(shape2.getPosition() + dir2 * speed * dt);
 
-	if (shape2.getPosition().x < minX) shape2.setPosition(shape2.getSize().x / 2.f, shape2.getPosition().y);
-	if (shape2.getPosition().x > maxX) shape2.setPosition(bounds.width - shape2.getSize().x / 2.f, shape2.getPosition().y);
+	if (shape2.getPosition().y < minY) shape2.setPosition(shape2.getPosition().x, shape2.getSize().y / 2.f);
+	if (shape2.getPosition().y > maxY) shape2.setPosition(shape2.getPosition().x, bounds.height - shape2.getSize().y / 2.f);
 
-	if(shape.getPosition().x < minX) shape.setPosition(shape.getSize().x / 2.f, shape.getPosition().y);
-    if(shape.getPosition().x > maxX) shape.setPosition(bounds.width - shape.getSize().x / 2.f, shape.getPosition().y);
+	if(shape.getPosition().y < minY) shape.setPosition(shape.getPosition().x, shape.getSize().y / 2.f);
+    if(shape.getPosition().y > maxY) shape.setPosition(shape.getPosition().x, bounds.height - shape.getSize().y / 2.f);
 }
 
 void Bat::Draw(sf::RenderWindow& window)
