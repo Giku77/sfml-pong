@@ -5,9 +5,11 @@ class Bat :
 {
 protected:
     sf::RectangleShape shape;
+    sf::RectangleShape shape2;
 
-    float speed = 500.f;
+    float speed = 800.f;
     sf::Vector2f dir;
+    sf::Vector2f dir2;
 
     float minX = 0.f, maxX = 0.f;
 
@@ -28,5 +30,6 @@ public:
     void Draw(sf::RenderWindow& window) override;
 
     sf::FloatRect GetGlobalBound() { return shape.getGlobalBounds(); }
+    sf::FloatRect GetGlobalBound2() { return shape2.getGlobalBounds(); }
 };
 

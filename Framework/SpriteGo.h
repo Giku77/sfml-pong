@@ -7,8 +7,6 @@ protected:
 	sf::Sprite sprite;
 	std::string textureId;
 
-	int score = 0;
-
 public:
 	SpriteGo(const std::string& texPlayerId = "", const std::string& name = "");
 	~SpriteGo() override = default;
@@ -18,9 +16,6 @@ public:
 
 	sf::Sprite& GetSprite() { return sprite; }
 	const sf::Sprite& GetSprite() const { return sprite; }
-
-	void setScore(int s) { score = s; }
-	int getScore() const { return score; }
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float rot) override;

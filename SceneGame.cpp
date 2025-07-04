@@ -2,6 +2,7 @@
 #include "SceneGame.h"
 #include "Bat.h"
 #include "Ball.h"
+#include "UiHud.h"
 
 SceneGame::SceneGame()
 	:Scene(SceneIds::Game)
@@ -10,8 +11,11 @@ SceneGame::SceneGame()
 
 void SceneGame::Init()
 {
+	fontIds.push_back("fonts/DS-DIGIT.ttf");
+
 	bat = (Bat*)AddGameObject(new Bat("Bat"));
-	ball = (Ball*)AddGameObject(new Ball("Ball"));
+	UiHud* hud = (UiHud*)AddGameObject(new UiHud());
+	ball = (Ball*)AddGameObject(new Ball(hud));
 	ball->setBat(bat);
 	Scene::Init();
 }

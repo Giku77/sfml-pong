@@ -2,8 +2,14 @@
 #include "Ball.h"
 #include "Bat.h"
 #include "SceneGame.h"
+#include "UiHud.h"
 
 Ball::Ball(const std::string& name)
+{
+}
+
+Ball::Ball(UiHud* u)
+	:hud(u)
 {
 }
 
@@ -38,6 +44,7 @@ void Ball::SetOrigin(Origins preset)
 	Utils::SetOrigin(shape, preset);
 }
 
+
 void Ball::Init()
 {
 	shape.setRadius(10.f);
@@ -58,47 +65,68 @@ void Ball::Reset()
 	minX = bounds.left + radius;
 	maxX = (bounds.left + bounds.width) - radius;
 
-	minY = bounds.top + radius * 2.f;
+	minY = bounds.top - radius * 4.f;
 	maxY = bounds.top + bounds.height + radius * 4.f;
 
 	dir = { 0.f, 0.f };
 	speed = 0.f;
 }
 
+void Ball::resultGame() {
+	if (SCENE_MGR.GetCurrentSceneId() == SceneIds::Game) {
+		SceneGame* scene = (SceneGame*)SCENE_MGR.GetCurrentScene();
+		scene->SetGameOver();
+	}
+}
+
 void Ball::Update(float dt)
 {
-	sf::Vector2f pos = shape.getPosition() + dir * speed * dt;
+	if (isFinish && InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::Enter })) {
+		isFinish = false;
+		hud->SetShowMsg(false);
+		resultGame();
+	}
+	if(!isFinish) {
+		sf::Vector2f pos = shape.getPosition() + dir * speed * dt;
 
-	if (pos.x < minX) {
-		pos.x = minX;
-		dir.x *= -1.f;
-	}
-	else if (pos.x > maxX) {
-		pos.x = maxX;
-		dir.x *= -1.f;
-	}
-
-	if (pos.y < minY) {
-		pos.y = minY;
-		dir.y *= -1.f;
-	}
-	else if (pos.y > maxY) {
-		//pos.y = maxY;
-		//dir.y *= -1.f;
-		if (SCENE_MGR.GetCurrentSceneId() == SceneIds::Game) {
-			SceneGame* scene = (SceneGame*) SCENE_MGR.GetCurrentScene();
-			scene->SetGameOver();
+		if (pos.x < minX) {
+			pos.x = minX;
+			dir.x *= -1.f;
 		}
-	}
-
-	if (bat != nullptr) {
-		const sf::FloatRect& batBounds = bat->GetGlobalBound();
-		if (shape.getGlobalBounds().intersects(batBounds)) {
-			pos.y = batBounds.top;
-			dir.y *= -1.f;
+		else if (pos.x > maxX) {
+			pos.x = maxX;
+			dir.x *= -1.f;
 		}
+
+		if (pos.y < minY) {
+			//pos.y = minY;
+			//dir.y *= -1.f;
+			hud->SetShowMsg(true);
+			hud->SetMsg("PLAYER1 WIN");
+			isFinish = true;
+		}
+		else if (pos.y > maxY) {
+			//pos.y = maxY;
+			//dir.y *= -1.f;
+			hud->SetShowMsg(true);
+			hud->SetMsg("PLAYER2 WIN");
+			isFinish = true;
+		}
+
+		if (bat != nullptr) {
+			const sf::FloatRect& batBounds = bat->GetGlobalBound();
+			const sf::FloatRect batBounds2 = bat->GetGlobalBound2();
+			if (shape.getGlobalBounds().intersects(batBounds)) {
+				pos.y = batBounds.top;
+				dir.y *= -1.f;
+			}
+			if (shape.getGlobalBounds().intersects(batBounds2)) {
+				pos.y = batBounds2.height + 40.f;
+				dir.y *= -1.f;
+			}
+		}
+		SetPosition(pos);
 	}
-	SetPosition(pos);
 }
 
 void Ball::Draw(sf::RenderWindow& window)
