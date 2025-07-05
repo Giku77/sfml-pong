@@ -17,7 +17,32 @@ std::unordered_map<Axis, AxisInfo> InputMgr::axisInfoMap;
 
 void InputMgr::Init()
 {
-	AxisInfo infoH;
+
+	AxisInfo infoH1;
+	infoH1.axis = Axis::Horizontal;
+	infoH1.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::D) });
+	infoH1.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::A) });
+	axisInfoMap.insert({ Axis::Horizontal, infoH1 });
+
+	AxisInfo infoH2;
+	infoH2.axis = Axis::Horizontal2;
+	infoH2.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Right) });
+	infoH2.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Left) });
+	axisInfoMap.insert({ Axis::Horizontal2, infoH2 });
+
+	AxisInfo infoV1;
+	infoV1.axis = Axis::Vertical;
+	infoV1.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::S) });
+	infoV1.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::W) });
+	axisInfoMap.insert({ Axis::Vertical, infoV1 });
+
+	AxisInfo infoV2;
+	infoV2.axis = Axis::Vertical2;
+	infoV2.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Down) });
+	infoV2.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Up) });
+	axisInfoMap.insert({ Axis::Vertical2, infoV2 });
+
+	/*AxisInfo infoH;
 	infoH.axis = Axis::Horizontal;
 	infoH.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::D) });
 	infoH.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Right) });
@@ -31,7 +56,7 @@ void InputMgr::Init()
 	infoV.positivies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Down) });
 	infoV.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::W) });
 	infoV.negativies.push_back({ InputType::Type::Keyboard, static_cast<int>(sf::Keyboard::Up) });
-	axisInfoMap.insert({ Axis::Vertical, infoV });
+	axisInfoMap.insert({ Axis::Vertical, infoV });*/
 
 	//InputMgr::ResetMosueButton();
 }

@@ -79,7 +79,7 @@ void Bat::Update(float dt)
 	//std::cout << bounds.width << std::endl;
 
 	
-	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::Up })) {
+	/*if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::Up })) {
 		dir2.y = -1.f;
 		shape2.setPosition(shape2.getPosition() + dir2 * speed * dt);
 	}
@@ -95,7 +95,12 @@ void Bat::Update(float dt)
 	if (InputMgr::GetKey({ InputType::Type::Keyboard, sf::Keyboard::S })) {
 		dir.y = 1.f;
 		shape.setPosition(shape.getPosition() + dir * speed * dt);
-	}
+	}*/
+	dir.y = InputMgr::GetAxis(Axis::Vertical);    
+	shape.setPosition(shape.getPosition() + dir * speed * dt);
+
+	dir2.y = InputMgr::GetAxis(Axis::Vertical2);  
+	shape2.setPosition(shape2.getPosition() + dir2 * speed * dt);
 	//if(shape.getPosition().x < 0) shape.setPosition(0.f, shape.getPosition().y);
 	//if(shape.getPosition().x > bounds.width - 80.f) shape.setPosition(bounds.width - 80.f, shape.getPosition().y);
 	
