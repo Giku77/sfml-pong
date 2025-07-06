@@ -21,6 +21,8 @@ enum class SceneIds
 	Game,
 	Dev1,
 	Dev2,
+	SelectGame,
+	Breakout,
 	Count,
 };
 

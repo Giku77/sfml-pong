@@ -30,13 +30,17 @@ void SceneGame::Enter()
 void SceneGame::Update(float dt) {
 	Scene::Update(dt);
 
+	if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, sf::Keyboard::BackSpace })) {
+		SCENE_MGR.ChangeScene(SceneIds::SelectGame);
+	}
+
 	if (!ballActvie) {
 		ball->SetPosition(bat->GetPosition());
 
 		if (InputMgr::GetKeyDown({ InputType::Type::Keyboard, sf::Keyboard::Space })) {
 			ballActvie = true;
 
-			sf::Vector2f dir(1.f, -1.f);
+			sf::Vector2f dir(1.f, Utils::RandomValue() > 0.5f ? 1.f : -1.f);
 			Utils::Normalize(dir);
 			ball->Fire(dir, 500.f);
 		}
@@ -45,5 +49,5 @@ void SceneGame::Update(float dt) {
 
 void SceneGame::SetGameOver()
 {
-	SCENE_MGR.ChangeScene(SceneIds::Game);
+	SCENE_MGR.ChangeScene(SCENE_MGR.GetCurrentSceneId());
 }

@@ -101,15 +101,16 @@ void Bat::Update(float dt)
 
 	dir2.y = InputMgr::GetAxis(Axis::Vertical2);  
 	shape2.setPosition(shape2.getPosition() + dir2 * speed * dt);
-	//if(shape.getPosition().x < 0) shape.setPosition(0.f, shape.getPosition().y);
-	//if(shape.getPosition().x > bounds.width - 80.f) shape.setPosition(bounds.width - 80.f, shape.getPosition().y);
-	
-	//dir.x = InputMgr::GetAxis(Axis::Horizontal);
-	//dir2.x = InputMgr::GetAxis(Axis::Horizontal);
-	//Utils::Clamp(shape.getPosition().x, minX, maxX);
-	//shape.setPosition(shape.getPosition() + dir * speed * dt);
-	//shape2.setPosition(shape2.getPosition() + dir2 * speed * dt);
 
+
+	/*shape.setPosition(Utils::Clamp(shape.getPosition(),
+		{ shape.getPosition().x, minY },
+		{ shape.getPosition().x, maxY }));
+
+	shape2.setPosition(Utils::Clamp(shape2.getPosition(),
+		{ shape2.getPosition().x, minY },
+		{ shape2.getPosition().x, maxY }));*/
+	
 	if (shape2.getPosition().y < minY) shape2.setPosition(shape2.getPosition().x, shape2.getSize().y / 2.f);
 	if (shape2.getPosition().y > maxY) shape2.setPosition(shape2.getPosition().x, bounds.height - shape2.getSize().y / 2.f);
 

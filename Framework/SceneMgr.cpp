@@ -3,12 +3,16 @@
 #include "SceneDev1.h"
 #include "SceneDev2.h"
 #include "SceneGame.h"
+#include "SceneSelectGame.h"
+#include "SceneBreakout.h"
 
 void SceneMgr::Init()
 {
 	scenes[SceneIds::Game] = new SceneGame();
 	scenes[SceneIds::Dev1] = new SceneDev1();
 	scenes[SceneIds::Dev2] = new SceneDev2();
+	scenes[SceneIds::SelectGame] = new SceneSelectGame();
+	scenes[SceneIds::Breakout] = new SceneBreakout();
 
 	for (auto& pair : scenes)
 	{

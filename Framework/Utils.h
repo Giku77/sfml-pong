@@ -23,6 +23,7 @@ public:
 
 	// Math
 	static float Clamp(float value, float min, float max);
+	static sf::Vector2f Clamp(const sf::Vector2f& value, const sf::Vector2f& min, const sf::Vector2f& max);
 	static float Clamp01(float value);
 
 	static float Magitude(const sf::Vector2f& vec);

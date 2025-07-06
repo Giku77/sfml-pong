@@ -59,6 +59,14 @@ float Utils::Clamp(float value, float min, float max)
     return value;
 }
 
+sf::Vector2f Utils::Clamp(const sf::Vector2f& value, const sf::Vector2f& min, const sf::Vector2f& max)
+{
+    return {
+        Clamp(value.x, min.x, max.x),
+        Clamp(value.y, min.y, max.y)
+    };
+}
+
 float Utils::Clamp01(float value)
 {
     return Clamp(value, 0.f, 1.f);
@@ -155,3 +163,4 @@ sf::Color Utils::Lerp(const sf::Color& min, const sf::Color& max, float t, bool 
         (sf::Uint8)Lerp(min.a, max.a, t, clamp)
     );
 }
+

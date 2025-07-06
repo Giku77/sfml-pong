@@ -47,6 +47,5 @@ public:
     void Draw(sf::RenderWindow& window) override;
 
     void Fire(const sf::Vector2f& d, float s);
-
 };
 

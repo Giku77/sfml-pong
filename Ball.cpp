@@ -22,7 +22,7 @@ void Ball::SetRotation(float rot)
 void Ball::SetPosition(const sf::Vector2f& pos)
 {
 	GameObject::SetPosition(pos);
-	shape.setPosition(position);
+	shape.setPosition(pos);
 }
 
 void Ball::SetScale(const sf::Vector2f& s)
@@ -65,8 +65,8 @@ void Ball::Reset()
 	minX = bounds.left + radius - 50.f;
 	maxX = (bounds.left + bounds.width) - radius + 50.f;
 
-	minY = bounds.top - radius * 0.5f;
-	maxY = bounds.top + bounds.height + radius * 2.f;
+	minY = bounds.top + radius;
+	maxY = bounds.top + bounds.height - radius;
 
 	dir = { 0.f, 0.f };
 	speed = 0.f;
